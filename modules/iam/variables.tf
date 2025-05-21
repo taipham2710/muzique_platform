@@ -1,0 +1,1 @@
+# Không cần biến đầu vào ở module này (sử dụng cấu hình mặc định)
