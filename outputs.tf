@@ -13,12 +13,16 @@ output "ecr_repositories" {
   description = "ECR repo URLs cho từng service"
 }
 
-output "route53_zone_id" {
+/*output "route53_zone_id" {
   value       = module.route53.zone_id
   description = "Route53 zone id"
-}
+}*/
 
 output "cloudwatch_log_groups" {
   value       = module.logs.log_group_names
   description = "Tên log group CloudWatch cho từng service"
+}
+
+output "ec2_public_ip" {
+  value = module.ec2.public_ip
 }

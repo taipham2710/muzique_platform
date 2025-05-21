@@ -54,3 +54,17 @@ module "ecs" {
   aws_region          = var.aws_region
   desired_count       = 2
 }
+
+module "ec2" {
+  source                = "./modules/ec2"
+  instance_type         = "t3.micro"
+  key_name              = var.ec2_key_name
+  subnet_id             = module.network.public_subnet_ids[0]
+  vpc_security_group_ids = [module.sg_default.id]
+  user_data_path        = "${path.module}/modules/ec2/user_data.sh"
+}
+
+module "sg_default" {
+  source = "./modules/sg_default"
+  vpc_id = module.network.vpc_id
+}

@@ -1,6 +1,6 @@
 variable "aws_region" {
   type        = string
-  default     = "ap-southeast-1"
+  default     = "us-east-1"
   description = "AWS region"
 }
 
@@ -19,4 +19,9 @@ variable "services" {
   type        = list(string)
   default     = ["frontend", "auth-service", "user-service", "task-service"]
   description = "Danh sách services ECS/ECR"
+}
+
+variable "ec2_key_name" {
+  type        = string
+  description = "Tên key pair EC2 để SSH"
 }
