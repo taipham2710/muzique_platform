@@ -11,5 +11,6 @@ variable "public_subnet_ids" {
 }
 
 variable "certificate_arn" {
-  type = string
+  type    = string
+  default = ""  # Make certificate optional
 }

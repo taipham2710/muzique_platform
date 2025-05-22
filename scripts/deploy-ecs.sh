@@ -2,8 +2,8 @@
 
 set -e
 
-AWS_REGION="ap-southeast-1"                                            # <--- Vùng AWS nơi ECR và ECS cluster đang chạy
-ECR_URL="123456789012.dkr.ecr.ap-southeast-1.amazonaws.com/my-service" # <--- URL của ECR repository
+AWS_REGION="us-east-1"                                            # <--- Vùng AWS nơi ECR và ECS cluster đang chạy
+ECR_URL="123456789012.dkr.ecr.us-east-1.amazonaws.com/my-service" # <--- URL của ECR repository
 IMAGE_TAG="latest"                                                     # <--- Tag của image, có thể là latest hoặc version cụ thể
 CONTAINER_NAME="my-service"                                            # <--- Tên container trong task definition
 CLUSTER_NAME="my-ecs-cluster"                                          # <--- Tên ECS cluster dùng

@@ -8,6 +8,15 @@ resource "aws_security_group" "alb" {
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
+  
+  # Add HTTP ingress rule
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    cidr_blocks = ["0.0.0.0/0"]
+  }
+  
   egress {
     from_port   = 0
     to_port     = 0
@@ -37,7 +46,26 @@ resource "aws_lb_target_group" "tg" {
   }
 }
 
+# Create HTTP listener when no certificate is available
+resource "aws_lb_listener" "http" {
+  count             = var.certificate_arn == "" ? 1 : 0
+  load_balancer_arn = aws_lb.this.arn
+  port              = 80
+  protocol          = "HTTP"
+
+  default_action {
+    type = "fixed-response"
+    fixed_response {
+      content_type = "text/plain"
+      message_body = "Not Found"
+      status_code  = "404"
+    }
+  }
+}
+
+# Create HTTPS listener only when certificate is available
 resource "aws_lb_listener" "https" {
+  count             = var.certificate_arn != "" ? 1 : 0
   load_balancer_arn = aws_lb.this.arn
   port              = 443
   protocol          = "HTTPS"
@@ -56,7 +84,7 @@ resource "aws_lb_listener" "https" {
 
 resource "aws_lb_listener_rule" "svc" {
   for_each     = toset(var.services)
-  listener_arn = aws_lb_listener.https.arn
+  listener_arn = var.certificate_arn != "" ? aws_lb_listener.https[0].arn : aws_lb_listener.http[0].arn
   priority     = 10 + index(var.services, each.key)
   action {
     type             = "forward"

@@ -20,25 +20,28 @@ module "iam" {
   source = "./modules/iam"
 }
 
-module "route53" {
-  source        = "./modules/route53"
-  domain_name   = var.domain_name
-  alb_dns_name  = module.alb.dns_name
-  alb_zone_id   = module.alb.zone_id
-}
+# Commented out Route53 module until domain is properly set up
+# module "route53" {
+#   source        = "./modules/route53"
+#   domain_name   = var.domain_name
+#   alb_dns_name  = module.alb.dns_name
+#   alb_zone_id   = module.alb.zone_id
+# }
 
-module "acm" {
-  source      = "./modules/acm"
-  domain_name = var.domain_name
-  zone_id     = module.route53.zone_id
-}
+# Commented out ACM module until domain is properly set up
+# module "acm" {
+#   source      = "./modules/acm"
+#   domain_name = var.domain_name
+#   zone_id     = module.route53.zone_id
+# }
 
 module "alb" {
   source            = "./modules/alb"
   services          = var.services
   vpc_id            = module.network.vpc_id
   public_subnet_ids = module.network.public_subnet_ids
-  certificate_arn   = module.acm.certificate_arn
+  # Removed certificate_arn parameter
+  # certificate_arn   = module.acm.certificate_arn
 }
 
 module "ecs" {

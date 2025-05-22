@@ -17,7 +17,7 @@ variable "domain_name" {
 
 variable "services" {
   type        = list(string)
-  default     = ["frontend", "auth-service", "user-service", "task-service"]
+  default     = ["frontend", "muzique-auth-service", "muzique-user-service", "muzique-task-service"]
   description = "Danh sách services ECS/ECR"
 }
 
